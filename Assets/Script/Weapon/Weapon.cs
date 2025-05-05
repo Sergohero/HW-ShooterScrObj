@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace HWShoter
 {
@@ -11,7 +10,6 @@ namespace HWShoter
        
         private float _shotDelay;
         protected float Force { get; private set; }
-
         public float LastShootTime { get; protected set; }
         protected bool CanShoot {get; private set;}
         
@@ -38,5 +36,9 @@ namespace HWShoter
 
         public abstract void Recharge();
 
+        public void SetActive(bool p0)
+        {
+            gameObject.SetActive(p0);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace HWShoter
 {
@@ -8,11 +9,12 @@ namespace HWShoter
         [SerializeField] private int _count;
         
         private Transform _bulletRoot;
-        private Bullet[] _bullets;
+        private Queue<Bullet> _bulletQueue;
 
         protected override void Start()
         {
             base.Start();
+            _bulletQueue = new Queue<Bullet>(_count);
             _bulletRoot = new GameObject("BulletRoot").transform;
             Recharge();
         }
@@ -20,12 +22,11 @@ namespace HWShoter
 
         public override void Recharge()
         {
-            _bullets = new Bullet[_count];
             for (int i = 0; i < _count; i++)
             {
                 Bullet bullet = Instantiate(_bulletPrefab, _bulletRoot);
                 bullet.Sleep();
-                _bullets[i] = bullet;
+                _bulletQueue.Enqueue(bullet);
             }
         }
 
@@ -36,49 +37,11 @@ namespace HWShoter
                 return;
             }
             
-            if (TryGetBullet(out Bullet bullet))
+            if (_bulletQueue.TryDequeue(out Bullet bullet))
             {
                bullet.Run(_barrel.forward * Force, _barrel.position);
                LastShootTime = 0.0f;
             }
-        }
-
-        private bool TryGetBullet(out Bullet result)
-        {
-            int candidate = -1;
-
-            if (_bullets == null)
-            {
-                result = default;
-                return false;
-            }
-
-            for (var i = 0; i < _bullets.Length; i++)
-            {
-                Bullet bullet = _bullets[i];
-                if (_bullets[i] == null)
-                {
-                    continue;
-                }
-
-                if (bullet.IsActive)
-                {
-                    continue;
-                }
-                
-                candidate = i;
-                break;
-
-            }
-            
-            if (candidate == -1)
-            {
-                result = default;
-                return false;
-            }
-            
-            result = _bullets[candidate];
-            return true;
         }
     }
 }
