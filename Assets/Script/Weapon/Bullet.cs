@@ -11,13 +11,14 @@ namespace HWShoter
         [SerializeField] private float _bulletLifeTime = 5.0f;
         
         private Rigidbody _rb;
+        
         public bool IsActive { get; private set; }
         
         private void Awake()
         {
             _rb = GetComponent<Rigidbody>();
         }
-
+        
         private void OnBecameInvisible()
         {
             if (IsActive == false)
@@ -27,7 +28,7 @@ namespace HWShoter
             
             Destroy(gameObject);
         }
-
+        
         private void OnCollisionEnter(Collision other)
         {
             Destroy(gameObject);

@@ -34,7 +34,6 @@ namespace HWShoter
             {
                 _weaponSelector.Recharge();
             }
-            
         }
     }
 }

@@ -7,6 +7,7 @@ namespace HWShoter
         private Weapon _currentWeapon;
         private int _currentIndex;
         private readonly Weapon[] _weapons;
+        
         public WeaponSelector(Weapon[] weapons)
         {
             _weapons = weapons;
@@ -15,6 +16,7 @@ namespace HWShoter
                 weapon.SetActive(false);
             }
         }
+        
         public void Fire()
         {
             if (_currentIndex != null)
@@ -22,6 +24,7 @@ namespace HWShoter
                 _currentWeapon.Fire();
             }
         }
+        
         public void Recharge()
         {
             if (_currentIndex != null)
@@ -29,16 +32,19 @@ namespace HWShoter
                 _currentWeapon.Recharge();
             }
         }
+        
         public void Next()
         {
             _currentIndex++;
             SelectWeapon();
         }
+        
         public void Upper()
         {
             _currentIndex--;
             SelectWeapon();
         }
+        
         private void SelectWeapon()
         {
             if (_currentWeapon != null)

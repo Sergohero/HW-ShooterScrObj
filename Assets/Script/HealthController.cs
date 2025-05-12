@@ -1,53 +1,46 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace HWShoter
+public sealed class HealthController : MonoBehaviour
 {
-    public sealed class HealthController : MonoBehaviour
+    [SerializeField] private float _health = 3.0f;
+    [SerializeField] private float _lifeTime = 3.0f;
+
+    private bool _isAlive = true;
+    private float _maxHealth;
+
+    public float MaxHealth
     {
-        [SerializeField] private float _health = 3.0f;
-        [SerializeField] private float _lifeTime = 3.0f;
+        get { return _maxHealth; }
+    }
 
-        private bool _isAlive = true;
-        private float _maxHealth;
-
-        public float MaxHealth
+    public bool CanTakeDamage(float damage)
+    {
+        if (_isAlive == false)
         {
-            get
-            {
-                return _maxHealth;
-            }
+            return false;
         }
 
-        public bool CanTakeDamage(float damage)
+        _health -= damage;
+
+        if (_health <= 0)
         {
-            if (_isAlive == false)
-            {
-                return false;
-            }
-            
-            _health -= damage;
-            
-            if (_health <= 0)
-            {
-                StartCoroutine(Die());
-                _isAlive = false;
-                return false;
-            }
-            
-            return true;
+            StartCoroutine(Die());
+            _isAlive = false;
+            return false;
         }
 
-        private IEnumerator Die()
-        {
-            var component = GetComponent<Renderer>();
+        return true;
+    }
 
-            component.material.color = Color.red;
-            yield return new WaitForSeconds(0.5f);
-            component.material.color = Color.green;
-            yield return new WaitForSeconds(_lifeTime);
-            Destroy(gameObject);
+    private IEnumerator Die()
+    {
+        var component = GetComponent<Renderer>();
 
-        }
+        component.material.color = Color.red;
+        yield return new WaitForSeconds(0.5f);
+        component.material.color = Color.green;
+        yield return new WaitForSeconds(_lifeTime);
+        Destroy(gameObject);
     }
 }
