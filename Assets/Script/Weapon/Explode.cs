@@ -9,7 +9,6 @@ namespace HWShoter
         public void TurnLightOn()
         {
             _light.enabled = true;
-            Debug.Log("Turned Light");
         }
     }
 }

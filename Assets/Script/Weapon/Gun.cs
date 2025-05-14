@@ -19,10 +19,15 @@ namespace HWShoter
             Recharge();
         }
         
-
+        public override string GetAmmoInfo()
+        {
+            int bulletsLeft = _bulletQueue?.Count ?? 0;
+            return $"Bullets: {bulletsLeft}/{_count}";
+        }
+        
         public override void Recharge()
         {
-            for (int i = 0; i < _count; i++)
+            while (_bulletQueue.Count < _count)
             {
                 Bullet bullet = Instantiate(_bulletPrefab, _bulletRoot);
                 bullet.Sleep();

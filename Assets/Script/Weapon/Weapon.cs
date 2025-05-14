@@ -40,5 +40,7 @@ namespace HWShoter
         {
             gameObject.SetActive(p0);
         }
+
+        public abstract string GetAmmoInfo();
     }
 }

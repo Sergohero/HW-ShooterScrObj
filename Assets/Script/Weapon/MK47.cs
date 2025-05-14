@@ -16,7 +16,12 @@ namespace HWShoter
                 _grenade = null;
             }
         }
-
+        
+        public override string GetAmmoInfo()
+        {
+            return _grenade == null ? "Grenade: 0/1" : "Grenade: 1/1";
+        }
+        
         public override void Recharge()
         {
             if (_grenade != null)

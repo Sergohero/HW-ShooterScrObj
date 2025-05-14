@@ -1,46 +1,49 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public sealed class HealthController : MonoBehaviour
+namespace HWShoter
 {
-    [SerializeField] private float _health = 3.0f;
-    [SerializeField] private float _lifeTime = 3.0f;
-
-    private bool _isAlive = true;
-    private float _maxHealth;
-
-    public float MaxHealth
+    public sealed class HealthController : MonoBehaviour
     {
-        get { return _maxHealth; }
-    }
+        [SerializeField] private float _health = 3.0f;
+        [SerializeField] private float _lifeTime = 3.0f;
 
-    public bool CanTakeDamage(float damage)
-    {
-        if (_isAlive == false)
+        private bool _isAlive = true;
+        private float _maxHealth;
+
+        public float MaxHealth
         {
-            return false;
+            get { return _maxHealth; }
         }
 
-        _health -= damage;
-
-        if (_health <= 0)
+        public bool CanTakeDamage(float damage)
         {
-            StartCoroutine(Die());
-            _isAlive = false;
-            return false;
+            if (_isAlive == false)
+            {
+                return false;
+            }
+
+            _health -= damage;
+
+            if (_health <= 0)
+            {
+                StartCoroutine(Die());
+                _isAlive = false;
+                return false;
+            }
+
+            return true;
         }
 
-        return true;
-    }
+        private IEnumerator Die()
+        {
+            var component = GetComponent<Renderer>();
 
-    private IEnumerator Die()
-    {
-        var component = GetComponent<Renderer>();
-
-        component.material.color = Color.red;
-        yield return new WaitForSeconds(0.5f);
-        component.material.color = Color.green;
-        yield return new WaitForSeconds(_lifeTime);
-        Destroy(gameObject);
+            component.material.color = Color.red;
+            yield return new WaitForSeconds(0.5f);
+            component.material.color = Color.green;
+            yield return new WaitForSeconds(_lifeTime);
+            Destroy(gameObject);
+        }
     }
 }

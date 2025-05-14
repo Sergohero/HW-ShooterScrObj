@@ -59,7 +59,5 @@ namespace HWShoter
             _rb.isKinematic = true;
             transform.position = direction;
         }
-
-
     }
 }
